@@ -1,0 +1,74 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package prog5121_poe;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author ST10173642
+ */
+public class Registration {
+    private String username;
+    private String password;
+    private String name;
+    private String lastName;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        while(this.username.length() > 5)
+        {
+            this.username = JOptionPane.showInputDialog(null,"Enter an username of five characters with an underscore");
+        }
+        JOptionPane.showMessageDialog(null,"Username successfully captured");
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        while(this.password.length() < 8)
+        {
+            this.password = JOptionPane.showInputDialog(null,"Enter a password of eight characters with a number and special character");
+        }
+        JOptionPane.showMessageDialog(null,"Password successfully captured");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    public boolean isRegistered()
+    {
+        if(this.username.equals(null) && this.password.equals(null) && this.name.equals(null) && this.lastName.equals(null))
+        {
+            return false;
+        }
+        
+        else
+        {
+            return true;
+        }
+    }
+}

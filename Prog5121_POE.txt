@@ -1,0 +1,220 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package prog5121_poe;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author ST10173642
+ */
+public class Prog5121_POE {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+        Registration reg = new Registration();
+        Login l = new Login();
+        String user;
+        String pass;
+        do
+        {
+            String name = JOptionPane.showInputDialog(null,"Registration\nEnter your name");
+            String surname = JOptionPane.showInputDialog(null,"Registration\nEnter your surname");
+            String username = JOptionPane.showInputDialog(null,"Registration\nEnter your username");
+            String password = JOptionPane.showInputDialog(null,"Registration\nEnter your password");
+            reg.setName(name);
+            reg.setLastName(surname);
+            reg.setUsername(username);
+            reg.setPassword(password);
+        }
+        while(reg.isRegistered() == false);
+        
+        l.setUsername(reg.getUsername());
+        l.setPassword(reg.getPassword());
+        
+        do
+        {
+            user = JOptionPane.showInputDialog(null,"Login\nEnter your username");
+            pass = JOptionPane.showInputDialog(null,"Registration\nEnter your password");
+            if(user.equals(l.getUsername()) & pass.equals(l.getPassword()))
+            {
+            JOptionPane.showMessageDialog(null, "Welcome"+reg.getName()+" "+reg.getLastName()+". It's nice to see you again");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Username or password is incorrect. Please try again");
+            }
+        }
+        while(!(user.equals(l.getUsername())) & !(pass.equals(l.getPassword())));
+        
+        //menu
+        JOptionPane.showMessageDialog(null, "Welcome to EasyKanBan");
+        
+        int menuOption =0;
+        int taskAmount;
+        String taskName;
+        String taskNumber;
+        String taskDescription;
+        String developerDetails;
+        int taskDuration;
+        String taskID;
+        String taskStatus;
+        Task task[];
+        int num = 1;
+        AssertEquals ae = new AssertEquals();
+        while(menuOption !=3)
+        {
+            menuOption = Integer.parseInt(JOptionPane.showInputDialog("MENU"+"\n1)Add tasks\n2)Show report\n3)Quit"));
+            
+            if(menuOption == 1)
+            {
+                taskAmount = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the number of tasks you want to perform"));
+                task[taskAmount] = new Task();
+                int totalDuration =0;
+                for (int i = 0; i < taskAmount; i++) {
+                    taskName = JOptionPane.showInputDialog("Enter the name of the task performed");
+                    task[i].setName(taskName);
+                    taskNumber = "0"+num;
+                    num++;
+                    task[i].setNumber(taskNumber);
+                    do
+                    {
+                    taskDescription = JOptionPane.showInputDialog(null, "Enter the task desciption");     
+                    task[i].setDescription(taskDescription);
+                    if(task[i].checkTaskDescription() == false)
+                    {
+                        JOptionPane.showMessageDialog(null, "Please enter a task description of less than 50 characters");
+                    }
+                    }
+                    while(task[i].checkTaskDescription() == false);
+                    JOptionPane.showMessageDialog(null,"Task successfully captured");
+                    developerDetails = JOptionPane.showInputDialog(null,"Enter the first and last name of the developer");
+                    task[i].setDeveloperDetails(developerDetails);
+                    taskDuration = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the number of hours it takes to perform the task"));
+                    task[i].setDuration(taskDuration);
+                    task[i].createTaskID();
+                    
+                    taskStatus = JOptionPane.showInputDialog("Status options"+"*To do\n*Done\n*Doing");
+                    task[i].setStatus(taskStatus);
+                    JOptionPane.showMessageDialog(null,task[i].printDetails());
+                    
+                    totalDuration += taskDuration;
+                    
+                }
+                task[0].returnTotalHours(totalDuration);
+                JOptionPane.showMessageDialog(null, "The total duration of all the tasks:\t"+task[0].returnTotalHours(totalDuration));
+                
+                int tests = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of tests you gonna perform"));
+                int menu2Option = Integer.parseInt(JOptionPane.showInputDialog("Options\n1)Initial data\n2)New data"));
+                Task t[];
+                for (int j = 0; j < tests; j++) {
+                    
+                if(menu2Option == 1)
+                {
+                    int menu3Option = Integer.parseInt(JOptionPane.showInputDialog("Options for task "+(j+1)+"\n1)Test description\n2)Test TaskID\n3)Test total duration"));
+                    if(menu3Option == 1)
+                    {
+                        int length = task[j].getDescription().length();
+                        if(length < 50)
+                        {
+                            JOptionPane.showMessageDialog(null,"Your task description is the appropriate length");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"Your task description is not the appropriate length");
+                        }
+                    }
+                    if(menu3Option == 2)
+                    {
+                        String newid = JOptionPane.showInputDialog("Enter the correct ID");
+                        if(ae.correctTaskID(task[j],newid) == true)
+                        {
+                            JOptionPane.showMessageDialog(null,"The TaskID is correct");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"The system has failed to produce the correct TaskID. We have corrected that error");
+                            task[j].setId(newid);
+                        }
+                    }
+                    if(menu3Option == 3)
+                    {
+                        int newDuration = Integer.parseInt(JOptionPane.showInputDialog("Enter the correct total duration of all the tasks"));
+                        if(ae.correctTotalDuration(task,newDuration) == true)
+                        {
+                            JOptionPane.showMessageDialog(null,"The total duration is correct");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"The system has failed to produce the correct duration. We have corrected that error");
+                            totalDuration = newDuration;
+                        }
+                    }
+                }
+                if(menu2Option == 2)
+                {
+                    t[tests] = new Task();
+                    int menu3Option = Integer.parseInt(JOptionPane.showInputDialog("Options\n1)Test description\n2)Test TaskID\n3)Test total duration"));
+                    if(menu3Option == 1)
+                    {
+                        String newDescription = JOptionPane.showInputDialog("Enter a task description");
+                        int length = newDescription.length();
+                        if(length < 50)
+                        {
+                            JOptionPane.showMessageDialog(null,"Your task description is the appropriate length");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"Your task description is not the appropriate length");
+                        }
+                    }
+                    if(menu3Option == 2)
+                    {
+                        String newid = JOptionPane.showInputDialog("Enter the task ID");
+                        if(ae.correctTaskID(t[j],newid) == true)
+                        {
+                            JOptionPane.showMessageDialog(null,"The TaskID is correct");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"The system has failed to produce the correct TaskID. We have corrected that error");
+                            t[j].setId(newid);
+                        }
+                    }
+                    if(menu3Option == 3)
+                    {
+                        int newDuration = Integer.parseInt(JOptionPane.showInputDialog("Enter the total duration of all the tasks"));
+                        for (int k = 0; k < t.length; k++) {
+                        int tempDuration = Integer.parseInt(JOptionPane.showInputDialog("Enter the  duration of all the task " + k));
+                        t[k].setDuration(tempDuration);
+                        }
+                        
+                        if(ae.correctTotalDuration(t,newDuration) == true)
+                        {
+                            JOptionPane.showMessageDialog(null,"The total duration is correct");
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"The system has failed to produce the correct duration. We will corrected that error");
+                            
+                        }
+                    }
+                }
+                }
+            }
+            if(menuOption == 2)
+            {
+                JOptionPane.showMessageDialog(null, "Coming Soon");
+            }
+        
+        }
+    }
+    
+}

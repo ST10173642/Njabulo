@@ -1,0 +1,120 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package prog5121_poe;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author ST10173642
+ */
+public class Task {
+    private String name;
+    private String number;
+    private String description;
+    private String developerDetails;
+    private int duration;
+    private String id;
+    private String status;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDeveloperDetails() {
+        return developerDetails;
+    }
+
+    public void setDeveloperDetails(String developerDetails) {
+        this.developerDetails = developerDetails;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public boolean checkTaskDescription()
+    {
+        if(description.length() < 50)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public String createTaskID()
+    {
+        id = name.charAt(0) + name.charAt(1) +
+                ":"+number+":"+
+                developerDetails.charAt(developerDetails.length()-3)+
+                developerDetails.charAt(developerDetails.length()-2)+
+                developerDetails.charAt(developerDetails.length()-1);
+        id = id.toUpperCase();
+        return id;
+    }
+    
+    public String printDetails()
+    {
+        String details ="Task details\n"
+                            +status+"\n"+
+                            developerDetails+"\n"+
+                            number+"\n"+
+                            name+"\n"+
+                            description+"\n"+
+                            id+"\n"+
+                            duration;
+        return details;
+    }
+    
+    public int returnTotalHours(int totalDuration)
+    {
+        int tDuration = totalDuration;
+        return tDuration;
+    }
+}
